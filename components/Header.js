@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row, Col, Menu } from 'antd'
 import { SmileOutlined, HomeOutlined, YoutubeOutlined, } from '@ant-design/icons'
 import styles from '../styles/components/header.module.css'
