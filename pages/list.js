@@ -3,6 +3,7 @@ import { Row, Col, List } from 'antd'
 import { CalendarOutlined, FolderOutlined, FireOutlined } from '@ant-design/icons'
 import Head from 'next/head'
 import Header from '../components/Header'
+import Author from '../components/Author'
 import commonStyles from '../styles/pages/common.module.css'
 import listStyles from '../styles/pages/list.module.css'
 
@@ -41,9 +42,9 @@ const MyList = () => {
 						)}
 					/>
 				</Col>
-				<Col className={commonStyles['common-right']} xs={0} sm={0} md={7} lg={5} xl={4} >
-					右侧内容
-			</Col>
+				<Col xs={0} sm={0} md={7} lg={5} xl={4} >
+					<Author />
+				</Col>
 			</Row>
 		</>
 	)
