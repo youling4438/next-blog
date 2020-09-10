@@ -1,11 +1,6 @@
 .author-div{
     text-align: center;
 	padding: 1rem;
-	background-color: #FFF;
-	margin-left: .5rem;
-	padding: .3rem;
-	border-radius: .3rem;
-	border-bottom: 1px solid #eee;
 }
 .author-div div{
     margin-bottom: 1rem;
@@ -22,12 +17,4 @@
     background-color: #999;
     margin-left: .5rem;
     margin-right: .5rem;
-}
-
-.common-right {
-	background-color: #FFF;
-	margin-left: .5rem;
-	padding: .3rem;
-	border-radius: .3rem;
-	border-bottom: 1px solid #eee;
 }

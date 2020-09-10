@@ -1,10 +1,11 @@
 import { Avatar, Divider } from 'antd'
 import { GithubOutlined, WechatOutlined, QqOutlined, ZhihuOutlined } from '@ant-design/icons'
+import commonStyles from '../styles/pages/common.module.css'
 import authorStyles from '../styles/components/author.module.css'
 
 const Author = () => {
 	return (
-		<div className={authorStyles['author-div']}>
+		<div className={`${authorStyles['author-div']} ${commonStyles['common-right']}`}>
 			<div>
 				<Avatar size={100} src="https://avatars3.githubusercontent.com/u/19323442?s=460&u=24cf094d1f2d53f3589130b073d3fb3efa74a8ac&v=4"  className={authorStyles['author-img']} />
 			</div>

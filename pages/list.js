@@ -4,6 +4,7 @@ import { CalendarOutlined, FolderOutlined, FireOutlined } from '@ant-design/icon
 import Head from 'next/head'
 import Header from '../components/Header'
 import Author from '../components/Author'
+import Advert from '../components/Advert'
 import commonStyles from '../styles/pages/common.module.css'
 import listStyles from '../styles/pages/list.module.css'
 
@@ -44,6 +45,7 @@ const MyList = () => {
 				</Col>
 				<Col xs={0} sm={0} md={7} lg={5} xl={4} >
 					<Author />
+					<Advert />
 				</Col>
 			</Row>
 		</>
