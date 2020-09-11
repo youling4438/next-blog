@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Row, Col, List } from 'antd'
+import { Row, Col, List, Breadcrumb } from 'antd'
 import { CalendarOutlined, FolderOutlined, FireOutlined } from '@ant-design/icons'
 import Head from 'next/head'
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Advert from '../components/Advert'
+import Footer from '../components/Footer'
 import commonStyles from '../styles/pages/common.module.css'
 import listStyles from '../styles/pages/list.module.css'
 
@@ -26,6 +27,12 @@ const MyList = () => {
 			<Header />
 			<Row className={commonStyles['common-main']} type="flex" justify="center">
 				<Col className={commonStyles['common-left']} xs={24} sm={24} md={16} lg={18} xl={14} >
+					<div className={commonStyles['bread-div']} >
+						<Breadcrumb>
+							<Breadcrumb.Item><a href='/'>首页</a></Breadcrumb.Item>
+							<Breadcrumb.Item><a>视频列表</a></Breadcrumb.Item>
+						</Breadcrumb>
+					</div>
 					<List
 						header={<div>最新日志</div>}
 						itemLayout="vertical"
@@ -48,6 +55,7 @@ const MyList = () => {
 					<Advert />
 				</Col>
 			</Row>
+			<Footer />
 		</>
 	)
 }
