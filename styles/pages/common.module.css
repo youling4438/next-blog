@@ -16,3 +16,12 @@
 	border-radius: .3rem;
 	border-bottom: 1px solid #eee;
 }
+
+.list-icon{
+    padding:.5rem 0;
+    color:#AAA;
+}
+.list-icon span{
+    display: inline-block;
+    padding: 0 10px;
+}
