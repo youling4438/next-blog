@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import axios from 'axios'
 import { Row, Col, List, Breadcrumb } from 'antd'
 import { CalendarOutlined, FolderOutlined, FireOutlined } from '@ant-design/icons'
@@ -33,7 +34,11 @@ const Home = (list) => {
 						dataSource={myList}
 						renderItem={item => (
 							<List.Item>
-								<div className={listStyles['list-title']}>{item.title}</div>
+								<div className={listStyles['list-title']}>
+									<Link href={ { pathname: '/detailed', query: {id: item.id}}} >
+										<a>{item.title}</a>
+									</Link>
+								</div>
 								<div className={listStyles['list-icon']}>
 									<span> <CalendarOutlined />{item.addTime}</span>
 									<span> <FolderOutlined /> {item.typeName}</span>
