@@ -1,11 +1,10 @@
-import React from 'react';
 import { Row, Col, Menu } from 'antd'
 import { SmileOutlined, HomeOutlined, YoutubeOutlined, } from '@ant-design/icons'
 import styles from '../styles/components/header.module.css'
 const Header = () => (
 	<div className={styles.header}>
 		<Row type="flex" justify="center">
-			<Col xs={24} sm={24} md={10} lg={10} xl={10} >
+			<Col xs={24} sm={24} md={10} lg={15} xl={12} >
 				<span className={styles['header-logo']}>幽灵自醒</span>
 				<span className={styles['header-text']}>前端开发---专注PC重构</span>
 			</Col>
