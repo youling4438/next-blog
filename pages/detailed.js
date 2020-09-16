@@ -10,6 +10,7 @@ import Advert from '../components/Advert'
 import Footer from '../components/Footer'
 import commonStyles from '../styles/pages/common.module.css'
 import detailedStyles from '../styles/pages/detailed.module.css'
+import Axios from 'axios'
 
 const Detailed = () => {
 	let markdown = '# P01:课程介绍和环境搭建\n' +
@@ -163,6 +164,18 @@ const Detailed = () => {
 			<Footer />
 		</>
 	)
+}
+
+Detailed.getInitialProps = async (context) => {
+	console.log('id : ', context.query.id)
+	let id = context.query.id
+	const promise = new Promise((resolve) => {
+		Axios('http://127.0.0.1:7001/getArticleDetailById/' + id).then(res => {
+			console.log(res.data);
+			resolve(res.data);
+		})
+	});
+	return await promise;
 }
 
 export default Detailed
