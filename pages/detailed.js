@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { Row, Col, Breadcrumb, Affix } from 'antd'
 import marked from 'marked'
 import hljs from 'highlight.js'
+import MarkNav from 'markdown-navbar'
 import { CalendarOutlined, FolderAddOutlined, FireOutlined } from '@ant-design/icons'
 import Header from '../components/Header'
 import Author from '../components/Author'
@@ -10,6 +11,7 @@ import Advert from '../components/Advert'
 import Footer from '../components/Footer'
 import commonStyles from '../styles/pages/common.module.css'
 import detailedStyles from '../styles/pages/detailed.module.css'
+import Tocify from '../components/tocify.tsx'
 import Axios from 'axios'
 
 
@@ -111,7 +113,18 @@ const Detailed = () => {
 		'a += a; ' +
 		' console.log("a :", a); ```'
 
+	const hmtl = marked(markdown);
+	const tocify = new Tocify();
 	const renderer = new marked.Renderer();
+	renderer.heading = function (text, level, raw) {
+		const anchor = tocify.add(text, level);
+		console.log('text :', text);
+		console.log('level :', level);
+		console.log('raw :', raw);
+		const head = `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+		console.log('head :', head);
+		return head; 
+	};
 	// renderer: 这个是必须填写的，你可以通过自定义的Renderer渲染出自定义的格式
 
 	// gfm：启动类似Github样式的Markdown,填写true或者false
@@ -140,7 +153,7 @@ const Detailed = () => {
 			return hljs.highlightAuto(code).value;
 		}
 	});
-	const hmtl = marked(markdown);
+	console.log('tocify :', tocify);
 	return (
 		<>
 			<Head>
@@ -172,7 +185,7 @@ const Detailed = () => {
 							<span><FolderAddOutlined /> 视频教程</span>
 							<span><FireOutlined /> 5498人</span>
 						</div>
-						<div className={detailedStyles['detailed-content']} dangerouslySetInnerHTML = {{ __html: hmtl }}>
+						<div className={detailedStyles['detailed-content']} dangerouslySetInnerHTML={{ __html: hmtl }}>
 						</div>
 					</div>
 				</Col>
@@ -182,11 +195,14 @@ const Detailed = () => {
 					<Affix offsetTop={5} >
 						<div className={`${detailedStyles['detailed-nav']} ${commonStyles['common-right']}`}>
 							<div className={detailedStyles['nav-title']}>文章目录</div>
-							{/* <MarkNav
+							<div className={detailedStyles['toc-list']}>
+								{tocify && tocify.render()}
+							</div>
+							<MarkNav
 								className={detailedStyles['article-menu']}
-								source={html}
+								source={markdown}
 								ordered
-							/> */}
+							/>
 						</div>
 					</Affix>
 				</Col>
@@ -197,7 +213,7 @@ const Detailed = () => {
 }
 
 Detailed.getInitialProps = async (context) => {
-	console.log('id : ', context.query.id)
+	// console.log('id : ', context.query.id)
 	let id = context.query.id
 	const promise = new Promise((resolve) => {
 		Axios('http://127.0.0.1:7001/getArticleDetailById/' + id).then(res => {
