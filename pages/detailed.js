@@ -1,7 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
 import { Row, Col, Breadcrumb, Affix } from 'antd'
-import ReactMarkdown from 'react-markdown'
+import marked from 'marked'
+import hljs from 'highlight.js'
 import MarkNav from 'markdown-navbar'
 import { CalendarOutlined, FolderAddOutlined, FireOutlined } from '@ant-design/icons'
 import Header from '../components/Header'
@@ -10,7 +11,9 @@ import Advert from '../components/Advert'
 import Footer from '../components/Footer'
 import commonStyles from '../styles/pages/common.module.css'
 import detailedStyles from '../styles/pages/detailed.module.css'
+import Tocify from '../components/tocify.tsx'
 import Axios from 'axios'
+
 
 const Detailed = () => {
 	let markdown = '# P01:课程介绍和环境搭建\n' +
@@ -106,7 +109,51 @@ const Detailed = () => {
 		'> aaaaaaaaa\n' +
 		'>> bbbbbbbbb\n' +
 		'>>> cccccccccc\n\n' +
-		'``` var a=11; ```'
+		'``` var a=11; ' +
+		'a += a; ' +
+		' console.log("a :", a); ```'
+
+	const hmtl = marked(markdown);
+	const tocify = new Tocify();
+	const renderer = new marked.Renderer();
+	renderer.heading = function (text, level, raw) {
+		const anchor = tocify.add(text, level);
+		console.log('text :', text);
+		console.log('level :', level);
+		console.log('raw :', raw);
+		const head = `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+		console.log('head :', head);
+		return head; 
+	};
+	// renderer: 这个是必须填写的，你可以通过自定义的Renderer渲染出自定义的格式
+
+	// gfm：启动类似Github样式的Markdown,填写true或者false
+
+	// pedatic：只解析符合Markdown定义的，不修正Markdown的错误。填写true或者false
+
+	// sanitize: 原始输出，忽略HTML标签，这个作为一个开发人员，一定要写flase
+
+	// tables： 支持Github形式的表格，必须打开gfm选项
+
+	// breaks: 支持Github换行符，必须打开gfm选项，填写true或者false
+
+	// smartLists：优化列表输出，这个填写ture之后，你的样式会好看很多，所以建议设置成ture
+
+	// highlight: 高亮显示规则 ，这里我们将使用highlight.js来完成
+	marked.setOptions({
+		renderer: renderer,
+		gfm: true,
+		pedantic: false,
+		sanitize: false,
+		tables: true,
+		breaks: false,
+		smartLists: true,
+		smartypants: false,
+		highlight: function (code) {
+			return hljs.highlightAuto(code).value;
+		}
+	});
+	console.log('tocify :', tocify);
 	return (
 		<>
 			<Head>
@@ -138,11 +185,7 @@ const Detailed = () => {
 							<span><FolderAddOutlined /> 视频教程</span>
 							<span><FireOutlined /> 5498人</span>
 						</div>
-						<div className={detailedStyles['detailed-content']}>
-							<ReactMarkdown
-								source={markdown}
-								escapeHtml={false}
-							/>
+						<div className={detailedStyles['detailed-content']} dangerouslySetInnerHTML={{ __html: hmtl }}>
 						</div>
 					</div>
 				</Col>
@@ -152,6 +195,9 @@ const Detailed = () => {
 					<Affix offsetTop={5} >
 						<div className={`${detailedStyles['detailed-nav']} ${commonStyles['common-right']}`}>
 							<div className={detailedStyles['nav-title']}>文章目录</div>
+							<div className={detailedStyles['toc-list']}>
+								{tocify && tocify.render()}
+							</div>
 							<MarkNav
 								className={detailedStyles['article-menu']}
 								source={markdown}
@@ -167,7 +213,7 @@ const Detailed = () => {
 }
 
 Detailed.getInitialProps = async (context) => {
-	console.log('id : ', context.query.id)
+	// console.log('id : ', context.query.id)
 	let id = context.query.id
 	const promise = new Promise((resolve) => {
 		Axios('http://127.0.0.1:7001/getArticleDetailById/' + id).then(res => {

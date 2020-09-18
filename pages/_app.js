@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css'
+// import 'highlight.js/styles/monokai-sublime.css'
 import '../styles/globals.css'
-import 'markdown-navbar/dist/navbar.css'
 
 function MyApp({ Component, pageProps }) {
 	return <Component {...pageProps} />
